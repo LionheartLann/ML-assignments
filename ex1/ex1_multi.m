@@ -104,7 +104,12 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
+X_estimate = [1 1650 3]
+% mu_estimate = mu(:,2:3)
+% sigma_estimate = sigma(:,2:3)
+X_estimate = [X_estimate(:,1) (X_estimate(:,2:3) - mu)./sigma]
+prediction = sum(theta' .* X_estimate,2);
+price = prediction; % You should change this
 
 
 % ============================================================
