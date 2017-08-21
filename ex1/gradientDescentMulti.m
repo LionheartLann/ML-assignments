@@ -19,6 +19,12 @@ for iter = 1:num_iters
 
 
 
+    prediction = sum(theta' .* X,2);
+    for i = 1:size(X,2)
+    	%theta(1) = theta(1) -  alpha/m*sum(prediction-y)
+    	%theta(2) = theta(2) -  alpha/m*sum((prediction-y).*(X(:,2)))
+    	theta(i) = theta(i) -  alpha/m*sum((prediction-y).*(X(:,i)))
+    end
 
 
 

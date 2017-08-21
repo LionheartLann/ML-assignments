@@ -67,10 +67,10 @@ fprintf(' x = [%f %f]\n', [X_norm(1:10,:) ]');
 
 mu
 sigma
-mean(X_norm(:,1))
-mean(X_norm(:,2))
-std(X_norm(:,1))
-std(X_norm(:,2))
+% mean(X_norm(:,1))
+% mean(X_norm(:,2))
+% std(X_norm(:,1))
+% std(X_norm(:,2))
 % fprintf(' x = [%f %f]\n', [X_norm(:,:) ]');
 % plot(X_norm(:,1));
 % hold on;
