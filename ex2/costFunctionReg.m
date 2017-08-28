@@ -18,14 +18,27 @@ grad = zeros(size(theta));
 %               derivatives of the cost w.r.t. each parameter in theta
 
 
-h = sigmoid(sum(theta'.*X, 2));%%%last stuck
-J = 1/m*sum(sum((-y.*log(h)-(1-y).*log(1-h)), 2)) + (lambda/2*m)*theta([2:size(theta, 1)],:).^2;
-%grad(1,:) = 1/m*sum(((h-y).*X));
-size(grad)
-size(grad(1,:))
-size(1/m*sum(((h-y).*X(1,:))))
-grad(1,:) = 1/m*sum(((h-y).*X(1,:)));
-grad([2:rows(theta)],:) = 1/m*sum(((h-y)([2:rows(X)],:).*X([2:rows(X)],:))) + lambda/m*theta([2:size(theta, 1)],:);
+h = sigmoid((X*theta));
+
+%J = 1/m*sum(sum((-y.*log(h)-(1-y).*log(1-h)), 2)...
+J = 1/m*(sum(-y.*log(h)-(1-y).*log(1-h))) + (lambda/2/m)*sum(theta([2:rows(theta)],:).^2);
+
+%grad = 1/m*sum(((h-y).*X(:,1)));
+grad(1,:) = 1/m*sum(h-y);%%% X0=[1...]
+
+
+
+%%%size(theta([2:size(theta, 1)],:))
+%size( sum((h-y).*X(:,[2:columns(X)])) )
+
+%size(( sum((h-y).*X(:,[2:columns(X)])) + lambda/m*theta([2:rows(theta)],:)') )
+
+%grad(:,[2:columns(grad)]) = 1/m*sum(((h-y)([2:rows(X)],:).*X([2:rows(X)],:))) + lambda/m*theta([2:size(theta, 1)],:)
+%grad(:,[2:columns(grad)]) = 1/m*sum( sum((h-y).*X(:,[2:columns(X)])) + lambda/m*theta([2:rows(theta)],:)')
+%size(sum((h-y).*X(:,[2:columns(X)])))
+
+%grad(:,[2:columns(grad)]) = 1/m*( sum((h-y).*X(:,[2:columns(X)])) + lambda/m*theta([2:rows(theta)],:)');
+grad([2:rows(grad)],:) = 1/m*(h-y)'*X(:,[2:columns(X)]) + lambda/m*theta([2:rows(theta)],:)';
 
 
 
