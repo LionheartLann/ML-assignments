@@ -77,8 +77,18 @@ h = sigmoid(z23);
 %hypothesis = a3;
 %h = a3;
 
+%%% size(y) is 5000*1  
+%%% instead of accumulating K, we can also reshape y to 5000*10
+z = zeros(size(y),num_labels);
+for i=1:m
+  index = y(i);
+  z(i,index) = 1;
+end
+y = z;
+
 %%% the outside sum simply sums up K output 
-J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) %+ (lambda/2/m)*sum(theta([2:rows(theta)],:).^2);
+%%% simply sums up the cost of logistic regression
+J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) + (lambda/2/m)*(  sum(sum(Theta1(:,2:end).^2))  +  sum(sum(Theta2(:,2:end).^2)));
 
 % -------------------------------------------------------------
 
