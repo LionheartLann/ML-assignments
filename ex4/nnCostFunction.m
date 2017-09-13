@@ -62,23 +62,23 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+a1 = [ones(m,1), X];
+z12 = a1*Theta1';
+a2 = sigmoid(z12);
+a2 = [ones(m,1), a2];
+z23 = a2*Theta2';
 
+h = sigmoid(z23);
+%hypothesis = sigmoid(z23);
+%[rate, index] = max(hypothesis,[],2);
+%h = index;
 
+%a3 = sigmoid(z23);
+%hypothesis = a3;
+%h = a3;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%%% the outside sum simply sums up K output 
+J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) %+ (lambda/2/m)*sum(theta([2:rows(theta)],:).^2);
 
 % -------------------------------------------------------------
 

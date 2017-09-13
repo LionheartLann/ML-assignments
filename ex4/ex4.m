@@ -74,6 +74,15 @@ fprintf('\nFeedforward Using Neural Network ...\n')
 % Weight regularization parameter (we set this to 0 here).
 lambda = 0;
 
+%%% size(y) is 5000*1  
+%%% instead of accumulating K, we can also reshape y to 5000*10
+z = zeros(size(y),num_labels);
+for i=1:m
+  index = y(i);
+  z(i,index) = 1;
+end
+y = z;
+
 J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
                    num_labels, X, y, lambda);
 
