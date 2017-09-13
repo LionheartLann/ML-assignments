@@ -93,9 +93,11 @@ J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) + (lambda/2/m)*(  sum(sum(Theta1(
 % -------------------------------------------------------------
 
 % =========================================================================
+delta3 = h - y;
 
 % Unroll gradients
+Theta1_grad = sigmoidGradient(Theta1);
+Theta2_grad = sigmoidGradient(Theta2);
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end
