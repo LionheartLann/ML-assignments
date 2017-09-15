@@ -24,7 +24,7 @@ Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):en
 
 % Setup some useful variables
 m = size(X, 1);
-         
+Delta = 0;         
 % You need to return the following variables correctly 
 J = 0;
 Theta1_grad = zeros(size(Theta1));
@@ -93,12 +93,30 @@ J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) + (lambda/2/m)*(  sum(sum(Theta1(
 % -------------------------------------------------------------
 
 % =========================================================================
-delta3 = h - y;
-delta2 = delta3*Theta2.*sigmoidGradient(z23);
+for t=1:m
+%delta3 = h - y;
+%delta2 = delta3*Theta2.*sigmoidGradient(z23);
+%delta2 = (delta3*Theta2(:,2:end))'*sigmoidGradient(z23);
+Z2 = a1(t,:)*Theta1';
+A2 = sigmoid(Z2);
+A2_with_bias = [1, A2];
+Z3 = A2*Theta2(:,2:end)';
+A3 = sigmoid(Z3);
+delta3 = A3 - y(t,:);
 
+delta2 = Theta2(:,2:end)'*delta3'.*sigmoidGradient(Z2);
+
+  %for l=1:2
+  %  Delta = Delta +
+  %end
+Delta1 = Delta1 + delta2*A2'
+end
+
+Theta1_grad = delta2;
+Theta2_grad = delta3;
 % Unroll gradients
-Theta1_grad = sigmoidGradient(Theta1);
-Theta2_grad = sigmoidGradient(Theta2);
+%Theta1_grad = sigmoidGradient(Theta1);
+%Theta2_grad = sigmoidGradient(Theta2);
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 end
