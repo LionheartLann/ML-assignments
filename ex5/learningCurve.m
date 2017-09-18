@@ -44,20 +44,19 @@ error_val   = zeros(m, 1);
 %
 %%%h = sum(theta'.*X, 2);
 %%%error_J = 1/2/m*sum((h-y).^2);
-%lambda = 0;
   for i = 1:m
       % Compute train/cross validation errors using training examples 
       % X(1:i, :) and y(1:i), storing the result in 
       % error_train(i) and error_val(i)
       ....
-  [theta] = trainLinearReg( X(1:i,:), y(1:i), lambda);
-  error_train(i) = linearRegCostFunction(X(1:i,:), y(1:i), theta, lambda);
-  error_val(i) = linearRegCostFunction(Xval, yval, theta, lambda);
+    [theta] = trainLinearReg( X(1:i,:), y(1:i), lambda);
+    error_train(i) = linearRegCostFunction(X(1:i,:), y(1:i), theta, lambda);
+    error_val(i) = linearRegCostFunction(Xval, yval, theta, lambda);
       
   end
 
   %[theta] = trainLinearReg(X, y, lambda)
-%error_val = 1/2/m*sum((h-y).^2); 
+  %error_val = 1/2/m*sum((h-y).^2); 
 
 % ---------------------- Sample Solution ----------------------
 

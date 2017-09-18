@@ -23,8 +23,10 @@ h = sum(theta'.*X, 2);
 %%% remember not to regularize theta0!!!
 J = 0.5/m * sum((h-y).^2) + lambda/2/m*sum(theta(2:end).^2);
 
-grad(1) = 1/m*sum((h-y)'*X(:,1));
-grad(2:end) = 1/m*sum((h-y)'*X(:, 2)) + lambda/m*theta(2:end);
+grad(1,:) = 1/m*sum((h-y)'*X(:,1));
+%%% check out the difference!!!
+%grad(2:end, :) = 1/m*sum((h-y)'*X(:, 2:end)) + lambda/m*theta(2:end);
+grad([2:rows(grad)],:) = 1/m*(h-y)'*X(:,[2:columns(X)]) + lambda/m*theta([2:rows(theta)],:)';
 
 
 
