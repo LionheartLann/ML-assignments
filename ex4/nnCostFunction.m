@@ -65,8 +65,8 @@ Theta2_grad = zeros(size(Theta2));
 a1 = [ones(m,1), X];
 z12 = a1*Theta1';
 a2 = sigmoid(z12);
-a2 = [ones(m,1), a2];
-z23 = a2*Theta2';
+a2_bias = [ones(m,1), a2];
+z23 = a2_bias*Theta2';
 
 h = sigmoid(z23);
 %hypothesis = sigmoid(z23);
@@ -79,41 +79,45 @@ h = sigmoid(z23);
 
 %%% size(y) is 5000*1  
 %%% instead of accumulating K, we can also reshape y to 5000*10
-z = zeros(size(y),num_labels);
-for i=1:m
-  index = y(i);
-  z(i,index) = 1;
-end
-y = z;
-
+%z = zeros(size(y),num_labels);
+%for i=1:m
+%  index = y(i);
+%  z(i,index) = 1;
+%end
+%y = z;
+%%% get rid of loop
+y = [1:num_labels] == y;
 %%% the outside sum simply sums up K output 
 %%% simply sums up the cost of logistic regression
+%%% correct
 J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) + (lambda/2/m)*(  sum(sum(Theta1(:,2:end).^2))  +  sum(sum(Theta2(:,2:end).^2)));
+%%% or using trace(A*B)
+%J = 1/m*(trace(-y'*log(h)-(1-y).*log(1-h))) + (lambda/2/m)*(  sum(sum(Theta1(:,2:end).^2))  +  sum(sum(Theta2(:,2:end).^2)));
 
 % -------------------------------------------------------------
 
 % =========================================================================
-for t=1:m
+% for t=1:m
 %delta3 = h - y;
 %delta2 = delta3*Theta2.*sigmoidGradient(z23);
 %delta2 = (delta3*Theta2(:,2:end))'*sigmoidGradient(z23);
-Z2 = a1(t,:)*Theta1';
-A2 = sigmoid(Z2);
-A2_with_bias = [1, A2];
-Z3 = A2*Theta2(:,2:end)';
-A3 = sigmoid(Z3);
-delta3 = A3 - y(t,:);
-
-delta2 = Theta2(:,2:end)'*delta3'.*sigmoidGradient(Z2);
+% Z2 = a1(t,:)*Theta1';
+% A2 = sigmoid(Z2);
+% A2_with_bias = [1, A2];
+% Z3 = A2*Theta2(:,2:end)';
+% A3 = sigmoid(Z3);
+% delta3 = A3 - y(t,:);
+% 
+% delta2 = Theta2(:,2:end)'*delta3'.*sigmoidGradient(Z2);
 
   %for l=1:2
   %  Delta = Delta +
   %end
-Delta1 = Delta1 + delta2*A2'
-end
+%Delta1 = Delta1 + delta2*A2'
+% end
 
-Theta1_grad = delta2;
-Theta2_grad = delta3;
+% Theta1_grad = delta2;
+% Theta2_grad = delta3;
 % Unroll gradients
 %Theta1_grad = sigmoidGradient(Theta1);
 %Theta2_grad = sigmoidGradient(Theta2);
