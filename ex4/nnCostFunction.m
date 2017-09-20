@@ -95,22 +95,29 @@ J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) + (lambda/2/m)*(  sum(sum(Theta1(
 %%% or using trace(A*B)
 %J = 1/m*(trace(-y'*log(h)-(1-y).*log(1-h))) + (lambda/2/m)*(  sum(sum(Theta1(:,2:end).^2))  +  sum(sum(Theta2(:,2:end).^2)));
 
-% -------------------------------------------------------------
-
-% =========================================================================
 delta3 = h - y % size(delta3)=5000*10
 
 
+% previous wrong calculation
 %delta2 = (delta3*Theta2(:,2:end))'*sigmoidGradient(z2) %size(delta3)=5000*10 size(Theta2(:,2:end))=10*25;their product is 5000*25; size(z2)=5000*25, final product is 25*25
-delta2 = (delta3*Theta2(:,2:end))'.*sigmoidGradient(z2)' 
+delta2 = (delta3*Theta2(:,2:end)).*sigmoidGradient(z2)  % do not include bias unit
 
 
+Delta1 = Delta2 = 0;
+Delta1 = Delta1 + delta2'*a1
+Delta2 = Delta2 + delta3'*a2
 
-%Theta1_grad = delta1;
-%Theta2_grad = delta2;
+
+% j=0, bias unit
+Theta1_grad(:,1) = 1/m*Delta1(:,1)
+Theta2_grad(:,1) = 1/m*Delta2(:,1)
+
+Theta1_grad(:, 2:end) = 1/m*Delta1(:, 2:end) + lambda/m*Theta1(:,2:end)
+Theta2_grad(:, 2:end) = 1/m*Delta2(:, 2:end) + lambda/m*Theta2(:,2:end)
+
+%Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + lambda*Theta1(:,2:end);
+%Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + lambda*Theta2(:,2:end);
 % Unroll gradients
-%Theta1_grad = sigmoidGradient(Theta1);
-%Theta2_grad = sigmoidGradient(Theta2);
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 end
