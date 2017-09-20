@@ -62,35 +62,19 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-a1 = [ones(m,1), X]
-z2 = a1*Theta1'
-%sigmoidGradient(z2)
+a1 = [ones(m,1), X];
+z2 = a1*Theta1';
 a2 = sigmoid(z2);
-a2 = [ones(m,1), a2]
-z3 = a2*Theta2'
+a2 = [ones(m,1), a2];
+z3 = a2*Theta2';
 
-h = sigmoid(z3)
-%hypothesis = sigmoid(z3);
-%[rate, index] = max(hypothesis,[],2);
-%h = index;
+h = sigmoid(z3);
 
-%a3 = sigmoid(z3);
-%hypothesis = a3;
-%h = a3;
-
-%%% size(y) is 5000*1  
-%%% instead of accumulating K, we can also reshape y to 5000*10
-%z = zeros(size(y),num_labels);
-%for i=1:m
-%  index = y(i);
-%  z(i,index) = 1;
-%end
-%y = z;
 %%% get rid of loop
 y = [1:num_labels] == y;
-%%% the outside sum simply sums up K output 
-%%% simply sums up the cost of logistic regression
-%%% correct
+
+%%% the outside sum simply sums up K output %%% simply sums up the cost of logistic regression
+%%% correct double sum
 J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) + (lambda/2/m)*(  sum(sum(Theta1(:,2:end).^2))  +  sum(sum(Theta2(:,2:end).^2)));
 %%% or using trace(A*B)
 %J = 1/m*(trace(-y'*log(h)-(1-y).*log(1-h))) + (lambda/2/m)*(  sum(sum(Theta1(:,2:end).^2))  +  sum(sum(Theta2(:,2:end).^2)));
@@ -100,23 +84,21 @@ delta3 = h - y % size(delta3)=5000*10
 
 % previous wrong calculation
 %delta2 = (delta3*Theta2(:,2:end))'*sigmoidGradient(z2) %size(delta3)=5000*10 size(Theta2(:,2:end))=10*25;their product is 5000*25; size(z2)=5000*25, final product is 25*25
-delta2 = (delta3*Theta2(:,2:end)).*sigmoidGradient(z2)  % do not include bias unit
+delta2 = (delta3*Theta2(:,2:end)).*sigmoidGradient(z2)  % do not include bias unit for penalty
 
 
 Delta1 = Delta2 = 0;
-Delta1 = Delta1 + delta2'*a1
-Delta2 = Delta2 + delta3'*a2
+Delta1 = Delta1 + delta2'*a1;
+Delta2 = Delta2 + delta3'*a2;
 
 
 % j=0, bias unit
-Theta1_grad(:,1) = 1/m*Delta1(:,1)
-Theta2_grad(:,1) = 1/m*Delta2(:,1)
+Theta1_grad(:,1) = 1/m*Delta1(:,1);
+Theta2_grad(:,1) = 1/m*Delta2(:,1);
 
-Theta1_grad(:, 2:end) = 1/m*Delta1(:, 2:end) + lambda/m*Theta1(:,2:end)
-Theta2_grad(:, 2:end) = 1/m*Delta2(:, 2:end) + lambda/m*Theta2(:,2:end)
+Theta1_grad(:, 2:end) = 1/m*Delta1(:, 2:end) + lambda/m*Theta1(:,2:end); %%% error in the lecture.pdf ; solved by checking errata
+Theta2_grad(:, 2:end) = 1/m*Delta2(:, 2:end) + lambda/m*Theta2(:,2:end);
 
-%Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + lambda*Theta1(:,2:end);
-%Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + lambda*Theta2(:,2:end);
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
