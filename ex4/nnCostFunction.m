@@ -17,10 +17,10 @@ function [J grad] = nnCostFunction(nn_params, ...
 % Reshape nn_params back into the parameters Theta1 and Theta2, the weight matrices
 % for our 2 layer neural network
 Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
-                 hidden_layer_size, (input_layer_size + 1));
+                 hidden_layer_size, (input_layer_size + 1))
 
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
-                 num_labels, (hidden_layer_size + 1));
+                 num_labels, (hidden_layer_size + 1))
 
 % Setup some useful variables
 m = size(X, 1);
@@ -62,18 +62,19 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-a1 = [ones(m,1), X];
-z12 = a1*Theta1';
-a2 = sigmoid(z12);
-a2_bias = [ones(m,1), a2];
-z23 = a2_bias*Theta2';
+a1 = [ones(m,1), X]
+z2 = a1*Theta1'
+%sigmoidGradient(z2)
+a2 = sigmoid(z2);
+a2 = [ones(m,1), a2]
+z3 = a2*Theta2'
 
-h = sigmoid(z23);
-%hypothesis = sigmoid(z23);
+h = sigmoid(z3)
+%hypothesis = sigmoid(z3);
 %[rate, index] = max(hypothesis,[],2);
 %h = index;
 
-%a3 = sigmoid(z23);
+%a3 = sigmoid(z3);
 %hypothesis = a3;
 %h = a3;
 
@@ -97,27 +98,16 @@ J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) + (lambda/2/m)*(  sum(sum(Theta1(
 % -------------------------------------------------------------
 
 % =========================================================================
-% for t=1:m
-%delta3 = h - y;
-%delta2 = delta3*Theta2.*sigmoidGradient(z23);
-%delta2 = (delta3*Theta2(:,2:end))'*sigmoidGradient(z23);
-% Z2 = a1(t,:)*Theta1';
-% A2 = sigmoid(Z2);
-% A2_with_bias = [1, A2];
-% Z3 = A2*Theta2(:,2:end)';
-% A3 = sigmoid(Z3);
-% delta3 = A3 - y(t,:);
-% 
-% delta2 = Theta2(:,2:end)'*delta3'.*sigmoidGradient(Z2);
+delta3 = h - y % size(delta3)=5000*10
 
-  %for l=1:2
-  %  Delta = Delta +
-  %end
-%Delta1 = Delta1 + delta2*A2'
-% end
 
-% Theta1_grad = delta2;
-% Theta2_grad = delta3;
+%delta2 = (delta3*Theta2(:,2:end))'*sigmoidGradient(z2) %size(delta3)=5000*10 size(Theta2(:,2:end))=10*25;their product is 5000*25; size(z2)=5000*25, final product is 25*25
+delta2 = (delta3*Theta2(:,2:end))'.*sigmoidGradient(z2)' 
+
+
+
+%Theta1_grad = delta1;
+%Theta2_grad = delta2;
 % Unroll gradients
 %Theta1_grad = sigmoidGradient(Theta1);
 %Theta2_grad = sigmoidGradient(Theta2);
