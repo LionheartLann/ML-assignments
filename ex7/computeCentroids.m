@@ -25,13 +25,10 @@ centroids = zeros(K, n);
 %
 % Note: You can use a for-loop over the centroids to compute this.
 %
-
-
-
-
-
-
-
+for k=1:K
+  logic = idx==k;
+  centroids(k,:) = 1/sum(logic)*sum(X.*logic); % sum(logic) is the number of examples assigned to kth centroid
+end
 
 % =============================================================
 

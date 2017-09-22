@@ -7,10 +7,9 @@ function idx = findClosestCentroids(X, centroids)
 
 % Set K
 K = size(centroids, 1);
-
+distance = zeros(K, 1); % to store and return the min distance
 % You need to return the following variables correctly.
 idx = zeros(size(X,1), 1);
-
 % ====================== YOUR CODE HERE ======================
 % Instructions: Go over every example, find its closest centroid, and store
 %               the index inside idx at the appropriate location.
@@ -20,7 +19,17 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
-
+for i = 1:size(X, 1)
+  for k = 1:K
+    distance(k) = sqrt(sum((X(i,:)-centroids(k,:)).^2));
+    %if k+1 <= K % k is the 1st or 2nd centroids
+    %idx(i) = k;
+    %else % k is the third centroids
+    %end
+  end
+  [mini, index] = min(distance);
+   idx(i) = index;
+end
 
 
 
