@@ -17,10 +17,10 @@ function [J grad] = nnCostFunction(nn_params, ...
 % Reshape nn_params back into the parameters Theta1 and Theta2, the weight matrices
 % for our 2 layer neural network
 Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
-                 hidden_layer_size, (input_layer_size + 1))
+                 hidden_layer_size, (input_layer_size + 1));
 
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
-                 num_labels, (hidden_layer_size + 1))
+                 num_labels, (hidden_layer_size + 1));
 
 % Setup some useful variables
 m = size(X, 1);
@@ -79,12 +79,12 @@ J = 1/m*(sum(sum(-y.*log(h)-(1-y).*log(1-h)))) + (lambda/2/m)*(  sum(sum(Theta1(
 %%% or using trace(A*B)
 %J = 1/m*(trace(-y'*log(h)-(1-y).*log(1-h))) + (lambda/2/m)*(  sum(sum(Theta1(:,2:end).^2))  +  sum(sum(Theta2(:,2:end).^2)));
 
-delta3 = h - y % size(delta3)=5000*10
+delta3 = h - y; % size(delta3)=5000*10
 
 
 % previous wrong calculation
 %delta2 = (delta3*Theta2(:,2:end))'*sigmoidGradient(z2) %size(delta3)=5000*10 size(Theta2(:,2:end))=10*25;their product is 5000*25; size(z2)=5000*25, final product is 25*25
-delta2 = (delta3*Theta2(:,2:end)).*sigmoidGradient(z2)  % do not include bias unit for penalty
+delta2 = (delta3*Theta2(:,2:end)).*sigmoidGradient(z2);  % do not include bias unit for penalty
 
 
 Delta1 = Delta2 = 0;
