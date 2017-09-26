@@ -24,6 +24,8 @@ X_rec = zeros(size(Z, 1), size(U, 1));
 % size(Z) is m*K
 
 for i = 1:size(Z,1)
+  %%% projection to j dimensions
+  %%% j is the original dimensions of X
   for j = 1:size(U,1)
     v = Z(i, :)';
     recovered_j = v' * U(j, 1:K)';

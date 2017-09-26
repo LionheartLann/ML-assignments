@@ -18,13 +18,14 @@ Z = zeros(size(X, 1), K);
 %                    projection_k = x' * U(:, k);
 %
 
+%%% why first K?
 
-% U is eigenvectors
-% size(U) is 3*3 
-%U_reduce = U(:, 1:K);
-% loop m examples
+%%% U is eigenvectors
+%%% size(U) is 3*3 ? why
+%%% loop m examples
 for i = 1:size(X, 1)
   x = X(i, :)';
+  %%% projection to k dimensions
   for k = 1:K
     % ?
     projection_k = x' * U(:, k);

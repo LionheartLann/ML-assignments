@@ -139,6 +139,7 @@ fprintf('Program paused. Press enter to continue.\n');
 pause;
 
 
+%%% why top K???
 %% ============= Part 6: Dimension Reduction for Faces =================
 %  Project images to the eigen space using the top k eigenvectors 
 %  If you are applying a machine learning algorithm 
