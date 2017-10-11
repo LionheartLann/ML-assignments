@@ -22,10 +22,6 @@ idx = zeros(size(X,1), 1);
 for i = 1:size(X, 1)
   for k = 1:K
     distance(k) = sqrt(sum((X(i,:)-centroids(k,:)).^2));
-    %if k+1 <= K % k is the 1st or 2nd centroids
-    %idx(i) = k;
-    %else % k is the third centroids
-    %end
   end
   [mini, index] = min(distance);
    idx(i) = index;
