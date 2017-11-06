@@ -24,7 +24,7 @@ for i = 1:size(X, 1)
     distance(k) = sqrt(sum((X(i,:)-centroids(k,:)).^2));
   end
   [mini, index] = min(distance);
-   idx(i) = index;
+  idx(i) = index;
 end
 
 
